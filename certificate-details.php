@@ -6,8 +6,8 @@ require_once "./admin/config/db.php";
 
 if (isset($_GET['close'])) {
   session_destroy();
-  unset($_SESSION['accessCode']);
-  header("location: check-in");
+  unset($_SESSION['certNum']);
+  header("location: /");
 }
 
 ?>

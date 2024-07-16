@@ -1,33 +1,5 @@
 <?php
-session_start();
-
-include "./admin/config/db.php";
-
-    //Verify user Start
-    if (isset($_POST['cert_search_btn'])) {
-
-        $certNum = $conn->real_escape_string($_POST['certNum']);
-
-            $query = "SELECT * FROM certificate WHERE certNum='$certNum'";
-            $results = mysqli_query($conn, $query);
-            while($row = mysqli_fetch_array($results)) {
-                $certNum = $row['certNum'];
-                $client = $row['client'];
-                $title = $row['title'];
-                $image = $row['image'];
-            }
-            if (mysqli_num_rows($results) == 1) {
-                $_SESSION['certNum'] = $certNum;
-                $_SESSION['client'] = $client;
-                $_SESSION['title'] = $title;
-                $_SESSION['image'] = $image;
-            header('location: certificate-details');
-            }else {
-                $_SESSION['message_title'] = "Incorrect Certificate No.";
-                $_SESSION['message'] = "Please Verify Certificate No.";
-            }
-    }
-
+require_once "./auth/query.php";
 ?>
 <html>
   <head>
@@ -51,7 +23,7 @@ include "./admin/config/db.php";
                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
               </svg>
             </div>
-            <input id="search" type="text" name="certNum" placeholder="What are you looking for?" />
+            <input id="search" type="text" name="certNum" required placeholder="Enter Certificate No. (ex: GQGL/SSL-XXU/092031/108)" />
           </div>
           <div class="input-field second-wrap">
             <button class="btn-search" type="submit" name="cert_search_btn">SEARCH</button>
